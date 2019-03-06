@@ -25,9 +25,6 @@ def user_ui():
     print("4. Search for a contact")
     print("5. Exit\n")
 
-# working on a way to apply user inputs to a class object with a dynamically assigned
-# variable name relative to the name variable. Line 34 will not work because add_new_contact
-# will get overwritten with each additional new contact added by user.
 def add_new_contact():
     name = input("\nEnter the contact's name: ")
     phone_number = input("\nEnter the contact's phone number: ")
@@ -57,3 +54,5 @@ while True:
         print("Exited Fab Database")
         print("-------------------\n")
         break
+
+print(database)
