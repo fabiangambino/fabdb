@@ -34,7 +34,7 @@ def add_new_contact():
     print("\n-------------------------------------------------")
     print(name + " was added to contacts!")
     print("-------------------------------------------------")
-
+    
 #Program Runs
 
 welcome()
