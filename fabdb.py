@@ -44,11 +44,17 @@ while True:
     if task == 1:
         add_new_contact()
     elif task == 2:
-        print("\nThis feature is not built yet.")
+        print("\n------------------------------")
+        print("This feature is not built yet.")
+        print("------------------------------")
     elif task == 3:
-        print("\nThis feature is not built yet.")
+        print("\n------------------------------")
+        print("This feature is not built yet.")
+        print("------------------------------")
     elif task == 4:
-        print("\nThis feature is not built yet.")
+        print("\n------------------------------")
+        print("This feature is not built yet.")
+        print("------------------------------")
     elif task == 5:
         print("\n-------------------")
         print("Exited Fab Database")
