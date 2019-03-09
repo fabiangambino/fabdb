@@ -31,7 +31,9 @@ def add_new_contact():
     email_address = input("\nEnter the contact's email address: ")
     new_contact = Contact(name, phone_number, email_address)
     database.append(new_contact)
-    print("\n" + name + " was added to contacts!")
+    print("\n-------------------------------------------------")
+    print(name + " was added to contacts!")
+    print("-------------------------------------------------")
 
 #Program Runs
 
