@@ -44,7 +44,7 @@ def add_new_contact():
 def csv_contacts(database):
     csv_contacts = ""
     for contact in database:
-        csv_contacts = csv_contacts + str(contact.name) + "," + str(contact.phone_number) + "," + str(contact.email_address) + "\n"
+        csv_contacts = csv_contacts + contact.name + "," + contact.phone_number + "," + contact.email_address + "\n"
     return csv_contacts
 
 #Program Runs
