@@ -29,6 +29,18 @@ def user_ui():
     print("4. Search for a contact")
     print("5. Exit\n")
 
+# comma separated contacts added to database
+def csv_contacts(database):
+    csv_contacts = ""
+    for contact in database:
+        csv_contacts = csv_contacts + contact.name + "," + contact.phone_number + "," + contact.email_address + "\n"
+    return csv_contacts
+
+# save function
+def save_database(database):
+    with open("database.txt", "a") as db:
+        db.write(csv_contacts(database))
+
 # add new contacts functionality
 def add_new_contact():
     name = input("\nEnter the contact's name: ")
@@ -39,13 +51,6 @@ def add_new_contact():
     print("\n-------------------------------------------------")
     print(name + " was added to contacts!")
     print("-------------------------------------------------")
-
-# comma separated contacts added to database
-def csv_contacts(database):
-    csv_contacts = ""
-    for contact in database:
-        csv_contacts = csv_contacts + contact.name + "," + contact.phone_number + "," + contact.email_address + "\n"
-    return csv_contacts
 
 #Program Runs
 
@@ -79,4 +84,4 @@ while True:
         print("Error! Please enter numbers only.")
         print("---------------------------------")
 
-csv_contacts(database)
+save_database(database)
