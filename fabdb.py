@@ -29,17 +29,17 @@ def user_ui():
     print("4. Search for a contact")
     print("5. Exit\n")
 
-# comma separated contacts added to database
-def csv_contacts(database):
-    csv_contacts = ""
+# serializing database objects into a string
+def serialize_contacts(database):
+    s_contacts = ""
     for contact in database:
-        csv_contacts = csv_contacts + contact.name + "," + contact.phone_number + "," + contact.email_address + "\n"
-    return csv_contacts
+        s_contacts = s_contacts + contact.name + "," + contact.phone_number + "," + contact.email_address + "\n"
+    return s_contacts
 
 # save function
 def save_database(database):
-    with open("database.txt", "a") as db:
-        db.write(csv_contacts(database))
+    with open("database.txt", "w") as db:
+        db.write(serialize_contacts(database))
 
 # add new contacts functionality
 def add_new_contact():
@@ -84,4 +84,5 @@ while True:
         print("Error! Please enter numbers only.")
         print("---------------------------------")
 
+serialize_contacts(database)
 save_database(database)
