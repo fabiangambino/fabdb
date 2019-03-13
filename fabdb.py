@@ -84,5 +84,4 @@ while True:
         print("Error! Please enter numbers only.")
         print("---------------------------------")
 
-serialize_contacts(database)
 save_database(database)
