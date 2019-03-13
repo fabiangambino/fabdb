@@ -41,6 +41,11 @@ def save_database(database):
     with open("database.txt", "w") as db:
         db.write(serialize_contacts(database))
 
+def deserialize_contacts():
+    with open("database.txt", "r") as dc:
+        print(dc.read())
+
+
 # add new contacts functionality
 def add_new_contact():
     name = input("\nEnter the contact's name: ")
@@ -55,6 +60,7 @@ def add_new_contact():
 #Program Runs
 
 welcome()
+deserialize_contacts()
 
 # options 2, 3, and 4 are not built out yet
 while True:
