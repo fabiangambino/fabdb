@@ -41,9 +41,16 @@ def save_database(database):
     with open("database.txt", "w") as db:
         db.write(serialize_contacts(database))
 
+# working progress on deserializing contacts function
 def deserialize_contacts():
     with open("database.txt", "r") as dc:
-        print(dc.read())
+        db_contacts = []
+        for char in dc:
+            if char == ",":
+                ...
+            elif char == "\":
+                ...
+        return db_contacts
 
 
 # add new contacts functionality
