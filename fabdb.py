@@ -43,14 +43,32 @@ def save_database(database):
 
 # working progress on deserializing contacts function
 def deserialize_contacts():
-    with open("database.txt", "r") as dc:
-        db_contacts = []
-        for char in dc:
-            if char == ",":
-                ...
-            elif char == "\":
-                ...
-        return db_contacts
+    with open("database.txt", "r") as db:
+        file = db.read()
+
+        contacts = []
+        clean_new_line_split = []
+        fully_cleaned_contacts = []
+
+        new_line_split = file.split("\n")
+        for item in new_line_split:
+            if item != "":
+                clean_new_line_split.append(item)
+
+        for item in clean_new_line_split:
+            fully_cleaned_contacts.append(item.split(","))
+
+        for item in fully_cleaned_contacts:
+            name = fully_cleaned_contacts[0][0]
+            phone_number = fully_cleaned_contacts[0][1]
+            email_address = fully_cleaned_contacts[0][2]
+            contact = Contact(name, phone_number, email_address)
+            contacts.append(contact)
+
+        for item in contacts:
+            database.append(item)
+
+    return database
 
 
 # add new contacts functionality
@@ -97,5 +115,8 @@ while True:
         print("Error! Please enter numbers only.")
         print("---------------------------------")
 
-serialize_contacts(database)
 save_database(database)
+
+# Contacts are getting loaded in but there in an error when saving over
+# objects exist at runtime, but when adding new contacts, the older ones are
+# overwritten with the 1st contact's data for some reason
