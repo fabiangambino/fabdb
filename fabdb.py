@@ -41,7 +41,7 @@ def save_database(database):
     with open("database.txt", "w") as db:
         db.write(serialize_contacts(database))
 
-# working progress on deserializing contacts function
+# load contacts and reconstruct contact objects from text file
 def deserialize_contacts():
     with open("database.txt", "r") as db:
         file = db.read()
@@ -59,9 +59,9 @@ def deserialize_contacts():
             fully_cleaned_contacts.append(item.split(","))
 
         for item in fully_cleaned_contacts:
-            name = fully_cleaned_contacts[0][0]
-            phone_number = fully_cleaned_contacts[0][1]
-            email_address = fully_cleaned_contacts[0][2]
+            name = item[0]
+            phone_number = item[1]
+            email_address = item[2]
             contact = Contact(name, phone_number, email_address)
             contacts.append(contact)
 
@@ -69,7 +69,6 @@ def deserialize_contacts():
             database.append(item)
 
     return database
-
 
 # add new contacts functionality
 def add_new_contact():
@@ -82,8 +81,7 @@ def add_new_contact():
     print(name + " was added to contacts!")
     print("-------------------------------------------------")
 
-#Program Runs
-
+# Program Runs
 welcome()
 deserialize_contacts()
 
