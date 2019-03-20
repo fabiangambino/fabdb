@@ -42,33 +42,23 @@ def save_database(database):
         db.write(serialize_contacts(database))
 
 # load contacts and reconstruct contact objects from text file
-def deserialize_contacts():
-    with open("database.txt", "r") as db:
-        file = db.read()
+def load_database():
+    try:
 
-        contacts = []
-        clean_new_line_split = []
-        fully_cleaned_contacts = []
+        with open("database.txt", "r+") as db:
+            file = db.read()
 
-        new_line_split = file.split("\n")
-        for item in new_line_split:
-            if item != "":
-                clean_new_line_split.append(item)
+            for item in file.split("\n"):
+                if item != "":
+                    cleaned_contact = item.split(",")
+                    name = cleaned_contact[0]
+                    phone_number = cleaned_contact[1]
+                    email_address = cleaned_contact[2]
+                    contact = Contact(name, phone_number, email_address)
+                    database.append(contact)
 
-        for item in clean_new_line_split:
-            fully_cleaned_contacts.append(item.split(","))
-
-        for item in fully_cleaned_contacts:
-            name = item[0]
-            phone_number = item[1]
-            email_address = item[2]
-            contact = Contact(name, phone_number, email_address)
-            contacts.append(contact)
-
-        for item in contacts:
-            database.append(item)
-
-    return database
+    except:
+        return
 
 # add new contacts functionality
 def add_new_contact():
@@ -83,7 +73,7 @@ def add_new_contact():
 
 # Program Runs
 welcome()
-deserialize_contacts()
+load_database()
 
 # options 2, 3, and 4 are not built out yet
 while True:
@@ -114,7 +104,3 @@ while True:
         print("---------------------------------")
 
 save_database(database)
-
-# Contacts are getting loaded in but there in an error when saving over
-# objects exist at runtime, but when adding new contacts, the older ones are
-# overwritten with the 1st contact's data for some reason
