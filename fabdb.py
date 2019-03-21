@@ -18,7 +18,7 @@ class Contact:
 # welcome user interface
 def welcome(welcome_message):
 
-    pretty_print(welcome_message)
+    pretty_print(welcome_message, should_add_newline = False)
 
 # user interface display
 def user_ui():
@@ -85,12 +85,15 @@ def add_new_contact(database):
 
 
 # pretty print function
-def pretty_print(some_string):
+def pretty_print(some_string, should_add_newline = True):
 
     stringify = ""
 
     for char in some_string:
         stringify += "-"
+
+    if should_add_newline == True:
+        print("\n")
 
     print(stringify)
     print(some_string)
@@ -113,25 +116,21 @@ def main():
         task = input("Enter the task number and press enter: ")
 
         if task == "1":
+            print("")
             for item in database:
                 item.cprint()
         elif task == "2":
             add_new_contact(database)
         elif task == "3":
-            print("\n")
             pretty_print(unbuilt_feature)
         elif task == "4":
-            print("\n")
             pretty_print(unbuilt_feature)
         elif task == "5":
-            print("\n")
             pretty_print(unbuilt_feature)
         elif task == "6":
-            print("\n")
             pretty_print(exit_database_message)
             break
         else:
-            print("\n")
             pretty_print(invalid_input_message)
 
     save_database(database)
