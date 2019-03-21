@@ -13,12 +13,12 @@ class Contact:
         print("Phone Number: " + str(self.phone_number))
         print("Email Address: " + self.email_address)
 
-# welcome user interface
-def welcome():
+#welcome_message = "Welcome to Fab Database!"
 
-    print("\n------------------------")
-    print("Welcome to Fab Database!")
-    print("------------------------")
+# welcome user interface
+def welcome(welcome_message):
+
+    pretty_print(welcome_message)
 
 # user interface display
 def user_ui():
@@ -75,16 +75,37 @@ def add_new_contact(database):
     name = input("\nEnter the contact's name: ")
     phone_number = input("\nEnter the contact's phone number: ")
     email_address = input("\nEnter the contact's email address: ")
+
     new_contact = Contact(name, phone_number, email_address)
     database.append(new_contact)
-    print("\n-------------------------------------------------")
-    print(name + " was added to contacts!")
-    print("-------------------------------------------------")
 
+    contact_added_message = name + " was added to contacts!"
+    print("\n")
+    pretty_print(contact_added_message)
+
+
+# pretty print function
+def pretty_print(some_string):
+
+    stringify = ""
+
+    for char in some_string:
+        stringify += "-"
+
+    print(stringify)
+    print(some_string)
+    print(stringify)
+
+# control flow of the program
 def main():
 
+    welcome_message = "Welcome to Fab Database!"
+    unbuilt_feature = "This feature is not built yet."
+    exit_database_message = "Exited Fab Database"
+    invalid_input_message = "Error! Please enter numbers only."
+
     database = load_database()
-    welcome()
+    welcome(welcome_message)
 
     while True:
 
@@ -93,30 +114,25 @@ def main():
 
         if task == "1":
             for item in database:
-                item.cprint()    
+                item.cprint()
         elif task == "2":
             add_new_contact(database)
         elif task == "3":
-            print("\n------------------------------")
-            print("This feature is not built yet.")
-            print("------------------------------")
+            print("\n")
+            pretty_print(unbuilt_feature)
         elif task == "4":
-            print("\n------------------------------")
-            print("This feature is not built yet.")
-            print("------------------------------")
+            print("\n")
+            pretty_print(unbuilt_feature)
         elif task == "5":
-            print("\n------------------------------")
-            print("This feature is not built yet.")
-            print("------------------------------")
+            print("\n")
+            pretty_print(unbuilt_feature)
         elif task == "6":
-            print("\n-------------------")
-            print("Exited Fab Database")
-            print("-------------------\n")
+            print("\n")
+            pretty_print(exit_database_message)
             break
         else:
-            print("\n---------------------------------")
-            print("Error! Please enter numbers only.")
-            print("---------------------------------")
+            print("\n")
+            pretty_print(invalid_input_message)
 
     save_database(database)
 
