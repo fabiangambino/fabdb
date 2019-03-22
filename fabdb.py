@@ -18,7 +18,7 @@ class Contact:
 # welcome user interface
 def welcome(welcome_message):
 
-    pretty_print(welcome_message, should_add_newline = False)
+    pretty_print(welcome_message)
 
 # user interface display
 def user_ui():
@@ -26,10 +26,8 @@ def user_ui():
     print("\nWhat would you like to do?\n")
     print("1. List all contacts")
     print("2. Add a new contact")
-    print("3. Edit an existing contact")
-    print("4. Delete a contact")
-    print("5. Search for a contact")
-    print("6. Exit\n")
+    print("3. Search for a contact")
+    print("4. Exit\n")
 
 # serializing database objects into a string
 def serialize_contacts(database_contacts):
@@ -73,14 +71,13 @@ def load_database():
 def add_new_contact(database):
 
     name = input("\nEnter the contact's name: ")
-    phone_number = input("\nEnter the contact's phone number: ")
-    email_address = input("\nEnter the contact's email address: ")
+    phone_number = input("Enter the contact's phone number: ")
+    email_address = input("Enter the contact's email address: ")
 
     new_contact = Contact(name, phone_number, email_address)
     database.append(new_contact)
 
     contact_added_message = name + " was added to contacts!"
-    print("\n")
     pretty_print(contact_added_message)
 
 
@@ -90,10 +87,10 @@ def pretty_print(some_string, should_add_newline = True):
     stringify = ""
 
     for char in some_string:
-        stringify += "-"
+        stringify += "~"
 
     if should_add_newline == True:
-        print("\n")
+        print("")
 
     print(stringify)
     print(some_string)
@@ -104,7 +101,7 @@ def main():
 
     welcome_message = "Welcome to Fab Database!"
     unbuilt_feature = "This feature is not built yet."
-    exit_database_message = "Exited Fab Database"
+    exit_database_message = "Thank you for using Fab Database! Program Closed."
     invalid_input_message = "Error! Please enter numbers only."
 
     database = load_database()
@@ -124,11 +121,8 @@ def main():
         elif task == "3":
             pretty_print(unbuilt_feature)
         elif task == "4":
-            pretty_print(unbuilt_feature)
-        elif task == "5":
-            pretty_print(unbuilt_feature)
-        elif task == "6":
             pretty_print(exit_database_message)
+            print("")
             break
         else:
             pretty_print(invalid_input_message)
