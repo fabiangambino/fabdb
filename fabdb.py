@@ -147,9 +147,10 @@ def sanitize_email_field(email_field):
     # there must be a string after the @ symbol
     # there must be a single period after the string following the @ symbol
     # there must be a string following the period
-
+    pass
 
 # control flow of the program
+
 def main():
 
     welcome_message = "Welcome to Fab Database!"
