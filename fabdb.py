@@ -73,7 +73,17 @@ def load_database():
 def add_new_contact(database):
 
     first_name = input("\nEnter the contact's first name: ")
+    while sanitize_name_fields(first_name) is False:
+        invalid_input = "ERROR: Invalid Input. No numbers, spaces, or special characters. Try again."
+        pretty_print(invalid_input)
+        first_name = input("\nEnter the contact's first name: ")
+
     last_name = input("Enter the contact's last name: ")
+    while sanitize_name_fields(last_name) is False:
+        invalid_input = "ERROR: Invalid Input. No numbers, spaces, or special characters. Try again."
+        pretty_print(invalid_input)
+        last_name = input("\nEnter the contact's last name: ")
+
     phone_number = input("Enter the contact's phone number: ")
     while sanitize_phone_number(phone_number) is False:
         invalid_input = "ERROR: Invalid Input. Input format must be as follows: ###-###-#### Try again."
@@ -118,6 +128,18 @@ def sanitize_phone_number(phone_number):
                 return False
 
         return True
+
+# input control for first and last name fields
+def sanitize_name_fields(name_field):
+
+    if name_field == "":
+        return False
+
+    for char in name_field:
+        if char == " " or char.isalpha() == False:
+            return False
+
+    return True
 
 # control flow of the program
 def main():
