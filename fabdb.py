@@ -98,7 +98,6 @@ def add_new_contact(database):
     contact_added_message = first_name + " " + last_name + " was added to contacts!"
     pretty_print(contact_added_message)
 
-
 # pretty print function
 def pretty_print(some_string, should_add_newline = True):
 
@@ -140,6 +139,15 @@ def sanitize_name_fields(name_field):
             return False
 
     return True
+
+# input control for email_address field
+def sanitize_email_field(email_field):
+    # there must be a string before the @ symbol
+    # must have only 1 @ symbol
+    # there must be a string after the @ symbol
+    # there must be a single period after the string following the @ symbol
+    # there must be a string following the period
+
 
 # control flow of the program
 def main():
