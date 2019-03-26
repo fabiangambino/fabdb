@@ -1,18 +1,22 @@
 # contacts class object layout
 class Contact:
 
-    def __init__(self, first_name, last_name, phone_number, email_address):
+    def __init__(self, first_name, last_name, phone_number, email_address, contact_type = "unassigned", ownership = "unassigned"):
 
         self.first_name = first_name
         self.last_name = last_name
         self.phone_number = phone_number
         self.email_address = email_address
+        self.contact_type = contact_type
+        self.ownership = ownership
 
     def cprint(self):
 
         print("Name: " + self.first_name + " " + self.last_name)
         print("Phone Number: " + str(self.phone_number))
         print("Email Address: " + self.email_address)
+        print("Contact Type: " + self.contact_type)
+        print("Ownership: " + self.ownership)
 
 #welcome_message = "Welcome to Fab Database!"
 
@@ -35,7 +39,7 @@ def serialize_contacts(database_contacts):
 
     s_contacts = ""
     for contact in database_contacts:
-        s_contacts = s_contacts + contact.first_name + "," + contact.last_name + "," + contact.phone_number + "," + contact.email_address + "\n"
+        s_contacts = s_contacts + contact.first_name + "," + contact.last_name + "," + contact.phone_number + "," + contact.email_address + contact.contact_type + "," + contact.ownership + "\n"
     return s_contacts
 
 # save function
@@ -61,7 +65,9 @@ def load_database():
                     last_name = cleaned_contact[1]
                     phone_number = cleaned_contact[2]
                     email_address = cleaned_contact[3]
-                    contact = Contact(first_name, last_name, phone_number, email_address)
+                    contact_type = cleaned_contact[4]
+                    ownership = cleaned_contact[5]
+                    contact = Contact(first_name, last_name, phone_number, email_address, contact_type, ownership)
                     database.append(contact)
 
     except:
