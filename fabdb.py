@@ -1,7 +1,7 @@
 # contacts class object layout
 class Contact:
 
-    def __init__(self, first_name, last_name, phone_number, email_address, contact_type = "unassigned", ownership = "unassigned"):
+    def __init__(self, first_name, last_name, phone_number, email_address, contact_type, ownership):
 
         self.first_name = first_name
         self.last_name = last_name
@@ -34,12 +34,30 @@ def user_ui():
     print("3. Search for a contact")
     print("4. Exit\n")
 
+def contact_type_ui():
+
+    print("\nContact Types:")
+    print("1. Unassigned")
+    print("2. Prospect")
+    print("3. Customer\n")
+
+def ownership_ui():
+
+    print("\nBrokers:")
+    print("1. Fabian Gambino")
+    print("2. Matt Malleo")
+    print("3. Jonathan Sosnay")
+    print("4. Joel Bauman")
+    print("5. River Allen\n")
+
+
+
 # serializing database objects into a string
 def serialize_contacts(database_contacts):
 
     s_contacts = ""
     for contact in database_contacts:
-        s_contacts = s_contacts + contact.first_name + "," + contact.last_name + "," + contact.phone_number + "," + contact.email_address + contact.contact_type + "," + contact.ownership + "\n"
+        s_contacts = s_contacts + contact.first_name + "," + contact.last_name + "," + contact.phone_number + "," + contact.email_address + "," + contact.contact_type + "," + contact.ownership + "\n"
     return s_contacts
 
 # save function
@@ -98,7 +116,39 @@ def add_new_contact(database):
 
     email_address = input("Enter the contact's email address: ")
 
-    new_contact = Contact(first_name, last_name, phone_number, email_address)
+    contact_type_ui()
+    contact_type = input("Enter the contact type number: ")
+    while contact_type_control(contact_type) is False:
+        pretty_print("ERROR: Please enter a valid contact type number. Try again.")
+        contact_type_ui()
+        contact_type = input("Enter the contact type number: ")
+
+    if contact_type == "1":
+        contact_type = "Unassigned"
+    elif contact_type == "2":
+        contact_type = "Prospect"
+    elif contact_type == "3":
+        contact_type = "Customer"
+
+    ownership_ui()
+    ownership = input("Enter the contact owner number: ")
+    while ownership_control(ownership) is False:
+        pretty_print("ERROR: Please enter a valid owner number. Try again.")
+        ownership_ui()
+        ownership = input("Enter the contact owner number: ")
+
+    if ownership == "1":
+        ownership = "Fabian"
+    elif ownership == "2":
+        ownership = "Matt"
+    elif ownership == "3":
+        ownership = "Jonathan"
+    elif ownership == "4":
+        ownership = "Joel"
+    elif ownership == "5":
+        ownership = "River"
+
+    new_contact = Contact(first_name, last_name, phone_number, email_address, contact_type, ownership)
     database.append(new_contact)
 
     contact_added_message = first_name + " " + last_name + " was added to contacts!"
@@ -146,6 +196,33 @@ def sanitize_name_fields(name_field):
 
     return True
 
+def contact_type_control(contact_type):
+
+    if contact_type == "1":
+        return True
+    elif contact_type == "2":
+        return True
+    elif contact_type == "3":
+        return True
+    else:
+        return False
+
+def ownership_control(ownership):
+
+    if ownership == "1":
+        return True
+    elif ownership == "2":
+        return True
+    elif ownership == "3":
+        return True
+    elif ownership == "4":
+        return True
+    elif ownership == "5":
+        return True
+    else:
+        return False
+
+
 # input control for email_address field
 def sanitize_email_field(email_field):
     # there must be a string before the @ symbol
@@ -162,7 +239,7 @@ def main():
     welcome_message = "Welcome to Fab Database!"
     unbuilt_feature = "This feature is not built yet."
     exit_database_message = "Thank you for using Fab Database! Program Closed."
-    invalid_input_message = "Error! Please enter numbers only."
+    invalid_input_message = "Error! Please enter task numbers only."
 
     database = load_database()
     welcome(welcome_message)
