@@ -34,23 +34,24 @@ def user_ui():
     print("3. Search for a contact")
     print("4. Exit\n")
 
+# contact type ui for options
 def contact_type_ui():
 
-    print("\nContact Types:")
+    print("\nContact Types:\n")
     print("1. Unassigned")
     print("2. Prospect")
     print("3. Customer\n")
 
+# ownserhip ui for options
 def ownership_ui():
 
-    print("\nBrokers:")
-    print("1. Fabian Gambino")
-    print("2. Matt Malleo")
-    print("3. Jonathan Sosnay")
-    print("4. Joel Bauman")
-    print("5. River Allen\n")
-
-
+    print("\nBrokers:\n")
+    print("1. Unsassigned")
+    print("2. Fabian Gambino")
+    print("3. Matt Malleo")
+    print("4. Jonathan Sosnay")
+    print("5. Joel Bauman")
+    print("6. River Allen\n")
 
 # serializing database objects into a string
 def serialize_contacts(database_contacts):
@@ -115,6 +116,10 @@ def add_new_contact(database):
         phone_number = input("\nEnter the contact's phone number: ")
 
     email_address = input("Enter the contact's email address: ")
+    while sanitize_email(email_address) is False:
+        invalid_input = "ERROR: Invalid Input. Input format must be as follows: email_name@domain"
+        pretty_print(invalid_input)
+        email_address = input("\nEnter the contact's email address: ")
 
     contact_type_ui()
     contact_type = input("Enter the contact type number: ")
@@ -138,14 +143,16 @@ def add_new_contact(database):
         ownership = input("Enter the contact owner number: ")
 
     if ownership == "1":
-        ownership = "Fabian"
+        ownership = "Unsassigned"
     elif ownership == "2":
-        ownership = "Matt"
+        ownership = "Fabian"
     elif ownership == "3":
-        ownership = "Jonathan"
+        ownership = "Matt"
     elif ownership == "4":
-        ownership = "Joel"
+        ownership = "Jonathan"
     elif ownership == "5":
+        ownership = "Joel"
+    elif ownership == "6":
         ownership = "River"
 
     new_contact = Contact(first_name, last_name, phone_number, email_address, contact_type, ownership)
@@ -196,6 +203,26 @@ def sanitize_name_fields(name_field):
 
     return True
 
+# input control for email_address field
+def sanitize_email(email_address):
+
+    if email_address.count("@") > 1 or email_address.count("@") < 1:
+        return False
+
+    split_email = email_address.split("@")
+    domain = split_email[1]
+    domain_split = domain.split(".")
+
+    if domain.count(".") > 1 or domain.count(".") < 1:
+        return False
+
+    for part in domain_split:
+        if len(part) == 0:
+            return False
+
+    return True
+
+# input control for contact type field
 def contact_type_control(contact_type):
 
     if contact_type == "1":
@@ -207,6 +234,7 @@ def contact_type_control(contact_type):
     else:
         return False
 
+# input control for ownership field
 def ownership_control(ownership):
 
     if ownership == "1":
@@ -219,18 +247,14 @@ def ownership_control(ownership):
         return True
     elif ownership == "5":
         return True
+    elif ownership == "6":
+        return True
     else:
         return False
 
 
 # input control for email_address field
-def sanitize_email_field(email_field):
-    # there must be a string before the @ symbol
-    # must have only 1 @ symbol
-    # there must be a string after the @ symbol
-    # there must be a single period after the string following the @ symbol
-    # there must be a string following the period
-    pass
+
 
 # control flow of the program
 
