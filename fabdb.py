@@ -216,7 +216,8 @@ def sanitize_email(email_address):
     if domain.count(".") != 1:
         return False
 
-    if len(domain_split[0]) == 0 or len(domain_split[1]) == 0
+    if len(domain_split[0]) == 0 or len(domain_split[1]) == 0:
+        return False
 
     return True
 
