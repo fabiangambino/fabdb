@@ -206,14 +206,14 @@ def sanitize_name_fields(name_field):
 # input control for email_address field
 def sanitize_email(email_address):
 
-    if email_address.count("@") > 1 or email_address.count("@") < 1:
+    if email_address.count("@") != 1:
         return False
 
     split_email = email_address.split("@")
     domain = split_email[1]
     domain_split = domain.split(".")
 
-    if domain.count(".") > 1 or domain.count(".") < 1:
+    if domain.count(".") != 1:
         return False
 
     for part in domain_split:
