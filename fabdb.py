@@ -1,4 +1,4 @@
-# contacts class object layout
+# contacts class objects layout
 class Contact:
 
     def __init__(self, first_name, last_name, phone_number, email_address, contact_type, ownership):
@@ -16,7 +16,19 @@ class Contact:
         print("Phone Number: " + str(self.phone_number))
         print("Email Address: " + self.email_address)
         print("Contact Type: " + self.contact_type)
-        print("Ownership: " + self.ownership)
+        print("Ownership: " + str(self.ownership))
+
+# user class objects
+class User:
+
+    def __init__(self, name):
+
+        self.name = name
+
+    def uprint(self):
+
+        print("User: " + self.name)
+
 
 #welcome_message = "Welcome to Fab Database!"
 
@@ -30,9 +42,11 @@ def user_ui():
 
     print("\nWhat would you like to do?\n")
     print("1. List all contacts")
-    print("2. Add a new contact")
-    print("3. Search for a contact")
-    print("4. Exit\n")
+    print("2. List all users")
+    print("3. Add a new contact")
+    print("4. Search for a contact")
+    print("5. Manage users")
+    print("6. Exit\n")
 
 # contact type ui for options
 def contact_type_ui():
@@ -42,16 +56,21 @@ def contact_type_ui():
     print("2. Prospect")
     print("3. Customer\n")
 
-# ownserhip ui for options
-def ownership_ui():
+# user management ui options
+def user_management_ui():
 
-    print("\nBrokers:\n")
-    print("1. Unsassigned")
-    print("2. Fabian Gambino")
-    print("3. Matt Malleo")
-    print("4. Jonathan Sosnay")
-    print("5. Joel Bauman")
-    print("6. River Allen\n")
+    print("\nWhat would you like to do?\n")
+    print("1. Add a new user")
+    print("2. Delete a user")
+
+def user_list_ui(user_list):
+
+    print("")
+    count = 0
+    for user in user_list:
+        count += 1
+        print(str(count) + ". " + str(user.name))
+    print("")
 
 # serializing database objects into a string
 def serialize_contacts(database_contacts):
@@ -60,6 +79,14 @@ def serialize_contacts(database_contacts):
     for contact in database_contacts:
         s_contacts = s_contacts + contact.first_name + "," + contact.last_name + "," + contact.phone_number + "," + contact.email_address + "," + contact.contact_type + "," + contact.ownership + "\n"
     return s_contacts
+
+# serializing user objects into a string
+def serialize_users(user_list):
+
+    s_users = ""
+    for user in user_list:
+        s_users = s_users + user.name + "," + "\n"
+    return s_users
 
 # save function
 def save_database(database):
@@ -94,8 +121,37 @@ def load_database():
 
     return database
 
+# save users to file
+def save_users(user_list):
+
+    with open("users.txt", "w") as users:
+        users.write(serialize_users(user_list))
+
+# load users from file
+def load_users():
+
+    user_list = []
+
+    try:
+
+        with open("users.txt", "r+") as users:
+            file = users.read()
+
+            for item in file.split("\n"):
+                if item != "":
+                    cleaned_user = item.split(",")
+                    name = cleaned_user[0]
+                    user = User(name)
+                    user_list.append(user)
+
+    except:
+        pass
+
+    return user_list
+
+
 # add new contacts functionality
-def add_new_contact(database):
+def add_new_contact(database, user_list):
 
     first_name = input("\nEnter the contact's first name: ")
     while sanitize_name_fields(first_name) is False:
@@ -135,31 +191,37 @@ def add_new_contact(database):
     elif contact_type == "3":
         contact_type = "Customer"
 
-    ownership_ui()
-    ownership = input("Enter the contact owner number: ")
-    while ownership_control(ownership) is False:
+    user_list_ui(user_list)
+    ownership = int(input("Enter the contact owner number: "))
+    while ownership_control(ownership, user_list) is False:
         pretty_print("ERROR: Please enter a valid owner number. Try again.")
-        ownership_ui()
-        ownership = input("Enter the contact owner number: ")
+        user_list_ui(user_list)
+        ownership = int(input("Enter the contact owner number: "))
 
-    if ownership == "1":
-        ownership = "Unsassigned"
-    elif ownership == "2":
-        ownership = "Fabian"
-    elif ownership == "3":
-        ownership = "Matt"
-    elif ownership == "4":
-        ownership = "Jonathan"
-    elif ownership == "5":
-        ownership = "Joel"
-    elif ownership == "6":
-        ownership = "River"
-
-    new_contact = Contact(first_name, last_name, phone_number, email_address, contact_type, ownership)
+    new_contact = Contact(first_name, last_name, phone_number, email_address, contact_type, str(ownership))
     database.append(new_contact)
 
     contact_added_message = first_name + " " + last_name + " was added to contacts!"
     pretty_print(contact_added_message)
+
+# add users functionality
+def add_user(user_list):
+
+    user_management_ui()
+
+    ownership = input("\nEnter the task number and press enter: ")
+    while user_control(selection) is False:
+        pretty_print("Error! Please enter task numbers only.")
+        user_management_ui()
+        ownership = input("\nEnter the task number and press enter: ")
+
+    if ownership == 1:
+        name = input("\nEnter the user's name: ")
+        new_user = User(name)
+        user_list.append(new_user)
+        pretty_print(name + " was added to the users!")
+    elif ownership == 2:
+        pretty_print("This feature is not built yet.")
 
 # pretty print function
 def pretty_print(some_string, should_add_newline = True):
@@ -234,26 +296,22 @@ def contact_type_control(contact_type):
         return False
 
 # input control for ownership field
-def ownership_control(ownership):
+def ownership_control(ownership, user_list):
 
-    if ownership == "1":
+    if ownership < 1 or ownership > len(user_list):
+        return False
+    else:
         return True
-    elif ownership == "2":
+
+# input control for managing users
+def user_control(selection):
+
+    if selection == "1":
         return True
-    elif ownership == "3":
-        return True
-    elif ownership == "4":
-        return True
-    elif ownership == "5":
-        return True
-    elif ownership == "6":
+    elif selection == "2":
         return True
     else:
         return False
-
-
-# input control for email_address field
-
 
 # control flow of the program
 
@@ -264,6 +322,7 @@ def main():
     exit_database_message = "Thank you for using Fab Database! Program Closed."
     invalid_input_message = "Error! Please enter task numbers only."
 
+    user_list = load_users()
     database = load_database()
     welcome(welcome_message)
 
@@ -278,16 +337,23 @@ def main():
                 item.cprint()
                 print("")
         elif task == "2":
-            add_new_contact(database)
+            print("")
+            for item in user_list:
+                item.uprint()
         elif task == "3":
-            pretty_print(unbuilt_feature)
+            add_new_contact(database, user_list)
         elif task == "4":
+            pretty_print(unbuilt_feature)
+        elif task == "5":
+            add_user(user_list)
+        elif task == "6":
             pretty_print(exit_database_message)
             print("")
             break
         else:
             pretty_print(invalid_input_message)
 
+    save_users(user_list)
     save_database(database)
 
 main()
