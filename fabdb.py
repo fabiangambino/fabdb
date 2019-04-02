@@ -178,17 +178,17 @@ def add_new_contact(database, user_list):
         email_address = input("\nEnter the contact's email address: ")
 
     contact_type_ui()
-    contact_type = input("Enter the contact type number: ")
+    contact_type = int(input("Enter the contact type number: "))
     while contact_type_control(contact_type) is False:
         pretty_print("ERROR: Please enter a valid contact type number. Try again.")
         contact_type_ui()
         contact_type = input("Enter the contact type number: ")
 
-    if contact_type == "1":
+    if contact_type == 1:
         contact_type = "Unassigned"
-    elif contact_type == "2":
+    elif contact_type == 2:
         contact_type = "Prospect"
-    elif contact_type == "3":
+    elif contact_type == 3:
         contact_type = "Customer"
 
     user_list_ui(user_list)
@@ -209,18 +209,18 @@ def add_user(user_list):
 
     user_management_ui()
 
-    ownership = input("\nEnter the task number and press enter: ")
+    ownership = int(input("\nEnter the task number and press enter: "))
     while user_control(ownership) is False:
         pretty_print("Error! Please enter task numbers only.")
         user_management_ui()
         ownership = input("\nEnter the task number and press enter: ")
 
-    if ownership == "1":
+    if ownership == 1:
         name = input("\nEnter the user's name: ")
         new_user = User(name)
         user_list.append(new_user)
         pretty_print(name + " was added to the users!")
-    elif ownership == "2":
+    elif ownership == 2:
         pretty_print("This feature is not built yet.")
 
 # pretty print function
@@ -286,11 +286,11 @@ def sanitize_email(email_address):
 # input control for contact type field
 def contact_type_control(contact_type):
 
-    if contact_type == "1":
+    if contact_type == 1:
         return True
-    elif contact_type == "2":
+    elif contact_type == 2:
         return True
-    elif contact_type == "3":
+    elif contact_type == 3:
         return True
     else:
         return False
@@ -306,9 +306,9 @@ def ownership_control(ownership, user_list):
 # input control for managing users
 def user_control(ownership):
 
-    if ownership == "1":
+    if ownership == 1:
         return True
-    elif ownership == "2":
+    elif ownership == 2:
         return True
     else:
         return False
@@ -329,24 +329,24 @@ def main():
     while True:
 
         user_ui()
-        task = input("Enter the task number and press enter: ")
+        task = int(input("Enter the task number and press enter: "))
 
-        if task == "1":
+        if task == 1:
             print("")
             for item in database:
                 item.cprint()
                 print("")
-        elif task == "2":
+        elif task == 2:
             print("")
             for item in user_list:
                 item.uprint()
-        elif task == "3":
+        elif task == 3:
             add_new_contact(database, user_list)
-        elif task == "4":
+        elif task == 4:
             pretty_print(unbuilt_feature)
-        elif task == "5":
+        elif task == 5:
             add_user(user_list)
-        elif task == "6":
+        elif task == 6:
             pretty_print(exit_database_message)
             print("")
             break
