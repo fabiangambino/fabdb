@@ -210,17 +210,17 @@ def add_user(user_list):
     user_management_ui()
 
     ownership = input("\nEnter the task number and press enter: ")
-    while user_control(selection) is False:
+    while user_control(ownership) is False:
         pretty_print("Error! Please enter task numbers only.")
         user_management_ui()
         ownership = input("\nEnter the task number and press enter: ")
 
-    if ownership == 1:
+    if ownership == "1":
         name = input("\nEnter the user's name: ")
         new_user = User(name)
         user_list.append(new_user)
         pretty_print(name + " was added to the users!")
-    elif ownership == 2:
+    elif ownership == "2":
         pretty_print("This feature is not built yet.")
 
 # pretty print function
@@ -304,11 +304,11 @@ def ownership_control(ownership, user_list):
         return True
 
 # input control for managing users
-def user_control(selection):
+def user_control(ownership):
 
-    if selection == "1":
+    if ownership == "1":
         return True
-    elif selection == "2":
+    elif ownership == "2":
         return True
     else:
         return False
