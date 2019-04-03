@@ -1,14 +1,22 @@
+from ui_functions import user_ui, contact_type_ui, user_management_ui, user_list_ui
+from sanitizers import sanitize_phone_number, sanitize_name_fields, sanitize_email, contact_type_control, ownership_control, user_control
+from serializers import serialize_contacts, serialize_users
+from file_io import save_database, save_users, load_database, load_users
+from add_new_contacts import add_new_contact
+from add_user import add_user
+from pretty_print import pretty_print
+
 # contacts class objects layout
 class Contact:
 
-    def __init__(self, first_name, last_name, phone_number, email_address, contact_type, ownership):
+    def __init__(self, first_name, last_name, phone_number, email_address, contact_type, contact_owner):
 
         self.first_name = first_name
         self.last_name = last_name
         self.phone_number = phone_number
         self.email_address = email_address
         self.contact_type = contact_type
-        self.ownership = ownership
+        self.contact_owner = contact_owner
 
     def cprint(self):
 
@@ -16,7 +24,7 @@ class Contact:
         print("Phone Number: " + str(self.phone_number))
         print("Email Address: " + self.email_address)
         print("Contact Type: " + self.contact_type)
-        print("Ownership: " + str(self.ownership))
+        print("Ownership: " + self.contact_owner.name)
 
 # user class objects
 class User:
@@ -29,292 +37,7 @@ class User:
 
         print("User: " + self.name)
 
-
-#welcome_message = "Welcome to Fab Database!"
-
-# welcome user interface
-def welcome(welcome_message):
-
-    pretty_print(welcome_message)
-
-# user interface display
-def user_ui():
-
-    print("\nWhat would you like to do?\n")
-    print("1. List all contacts")
-    print("2. List all users")
-    print("3. Add a new contact")
-    print("4. Search for a contact")
-    print("5. Manage users")
-    print("6. Exit\n")
-
-# contact type ui for options
-def contact_type_ui():
-
-    print("\nContact Types:\n")
-    print("1. Unassigned")
-    print("2. Prospect")
-    print("3. Customer\n")
-
-# user management ui options
-def user_management_ui():
-
-    print("\nWhat would you like to do?\n")
-    print("1. Add a new user")
-    print("2. Delete a user")
-
-def user_list_ui(user_list):
-
-    print("")
-    count = 0
-    for user in user_list:
-        count += 1
-        print(str(count) + ". " + str(user.name))
-    print("")
-
-# serializing database objects into a string
-def serialize_contacts(database_contacts):
-
-    s_contacts = ""
-    for contact in database_contacts:
-        s_contacts = s_contacts + contact.first_name + "," + contact.last_name + "," + contact.phone_number + "," + contact.email_address + "," + contact.contact_type + "," + contact.ownership + "\n"
-    return s_contacts
-
-# serializing user objects into a string
-def serialize_users(user_list):
-
-    s_users = ""
-    for user in user_list:
-        s_users = s_users + user.name + "," + "\n"
-    return s_users
-
-# save function
-def save_database(database):
-
-    with open("database.txt", "w") as db:
-        db.write(serialize_contacts(database))
-
-# load contacts and reconstruct contact objects from text file
-def load_database():
-
-    database = []
-
-    try:
-
-        with open("database.txt", "r+") as db:
-            file = db.read()
-
-            for item in file.split("\n"):
-                if item != "":
-                    cleaned_contact = item.split(",")
-                    first_name = cleaned_contact[0]
-                    last_name = cleaned_contact[1]
-                    phone_number = cleaned_contact[2]
-                    email_address = cleaned_contact[3]
-                    contact_type = cleaned_contact[4]
-                    ownership = cleaned_contact[5]
-                    contact = Contact(first_name, last_name, phone_number, email_address, contact_type, ownership)
-                    database.append(contact)
-
-    except:
-        pass
-
-    return database
-
-# save users to file
-def save_users(user_list):
-
-    with open("users.txt", "w") as users:
-        users.write(serialize_users(user_list))
-
-# load users from file
-def load_users():
-
-    user_list = []
-
-    try:
-
-        with open("users.txt", "r+") as users:
-            file = users.read()
-
-            for item in file.split("\n"):
-                if item != "":
-                    cleaned_user = item.split(",")
-                    name = cleaned_user[0]
-                    user = User(name)
-                    user_list.append(user)
-
-    except:
-        pass
-
-    return user_list
-
-
-# add new contacts functionality
-def add_new_contact(database, user_list):
-
-    first_name = input("\nEnter the contact's first name: ")
-    while sanitize_name_fields(first_name) is False:
-        invalid_input = "ERROR: Invalid Input. No numbers, spaces, or special characters. Try again."
-        pretty_print(invalid_input)
-        first_name = input("\nEnter the contact's first name: ")
-
-    last_name = input("Enter the contact's last name: ")
-    while sanitize_name_fields(last_name) is False:
-        invalid_input = "ERROR: Invalid Input. No numbers, spaces, or special characters. Try again."
-        pretty_print(invalid_input)
-        last_name = input("\nEnter the contact's last name: ")
-
-    phone_number = input("Enter the contact's phone number: ")
-    while sanitize_phone_number(phone_number) is False:
-        invalid_input = "ERROR: Invalid Input. Input format must be as follows: ###-###-#### Try again."
-        pretty_print(invalid_input)
-        phone_number = input("\nEnter the contact's phone number: ")
-
-    email_address = input("Enter the contact's email address: ")
-    while sanitize_email(email_address) is False:
-        invalid_input = "ERROR: Invalid Input. Input format must be as follows: email_name@domain"
-        pretty_print(invalid_input)
-        email_address = input("\nEnter the contact's email address: ")
-
-    contact_type_ui()
-    contact_type = int(input("Enter the contact type number: "))
-    while contact_type_control(contact_type) is False:
-        pretty_print("ERROR: Please enter a valid contact type number. Try again.")
-        contact_type_ui()
-        contact_type = input("Enter the contact type number: ")
-
-    if contact_type == 1:
-        contact_type = "Unassigned"
-    elif contact_type == 2:
-        contact_type = "Prospect"
-    elif contact_type == 3:
-        contact_type = "Customer"
-
-    user_list_ui(user_list)
-    ownership = int(input("Enter the contact owner number: "))
-    while ownership_control(ownership, user_list) is False:
-        pretty_print("ERROR: Please enter a valid owner number. Try again.")
-        user_list_ui(user_list)
-        ownership = int(input("Enter the contact owner number: "))
-
-    new_contact = Contact(first_name, last_name, phone_number, email_address, contact_type, str(ownership))
-    database.append(new_contact)
-
-    contact_added_message = first_name + " " + last_name + " was added to contacts!"
-    pretty_print(contact_added_message)
-
-# add users functionality
-def add_user(user_list):
-
-    user_management_ui()
-
-    ownership = int(input("\nEnter the task number and press enter: "))
-    while user_control(ownership) is False:
-        pretty_print("Error! Please enter task numbers only.")
-        user_management_ui()
-        ownership = input("\nEnter the task number and press enter: ")
-
-    if ownership == 1:
-        name = input("\nEnter the user's name: ")
-        new_user = User(name)
-        user_list.append(new_user)
-        pretty_print(name + " was added to the users!")
-    elif ownership == 2:
-        pretty_print("This feature is not built yet.")
-
-# pretty print function
-def pretty_print(some_string, should_add_newline = True):
-
-    stringify = ""
-
-    for char in some_string:
-        stringify += "~"
-
-    if should_add_newline == True:
-        print("")
-
-    print(stringify)
-    print(some_string)
-    print(stringify)
-
-# input control for phone number
-def sanitize_phone_number(phone_number):
-
-        if len(phone_number) != 12:
-            return False
-
-        if phone_number[3] != "-" or phone_number[7] != "-":
-            return False
-
-        for char in phone_number:
-            if char != "-" and char.isdigit() is False:
-                return False
-
-        return True
-
-# input control for first and last name fields
-def sanitize_name_fields(name_field):
-
-    if name_field == "":
-        return False
-
-    for char in name_field:
-        if char == " " or char.isalpha() == False:
-            return False
-
-    return True
-
-# input control for email_address field
-def sanitize_email(email_address):
-
-    if email_address.count("@") != 1:
-        return False
-
-    split_email = email_address.split("@")
-    domain = split_email[1]
-    domain_split = domain.split(".")
-
-    if domain.count(".") != 1:
-        return False
-
-    if len(domain_split[0]) == 0 or len(domain_split[1]) == 0:
-        return False
-
-    return True
-
-# input control for contact type field
-def contact_type_control(contact_type):
-
-    if contact_type == 1:
-        return True
-    elif contact_type == 2:
-        return True
-    elif contact_type == 3:
-        return True
-    else:
-        return False
-
-# input control for ownership field
-def ownership_control(ownership, user_list):
-
-    if ownership < 1 or ownership > len(user_list):
-        return False
-    else:
-        return True
-
-# input control for managing users
-def user_control(ownership):
-
-    if ownership == 1:
-        return True
-    elif ownership == 2:
-        return True
-    else:
-        return False
-
 # control flow of the program
-
 def main():
 
     welcome_message = "Welcome to Fab Database!"
@@ -324,7 +47,7 @@ def main():
 
     user_list = load_users()
     database = load_database()
-    welcome(welcome_message)
+    pretty_print(welcome_message)
 
     while True:
 
