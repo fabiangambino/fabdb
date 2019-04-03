@@ -38,6 +38,8 @@ class User:
 # add new contacts functionality
 def add_new_contact(database, user_list):
 
+
+
     first_name = input("\nEnter the contact's first name: ")
     while sanitize_name_fields(first_name) is False:
         invalid_input = "ERROR: Invalid Input. No numbers, spaces, or special characters. Try again."
@@ -62,11 +64,11 @@ def add_new_contact(database, user_list):
         pretty_print(invalid_input)
         email_address = input("\nEnter the contact's email address: ")
 
-    contact_type_ui()
+    menu_display(contact_type_menu, contact_type_heading)
     contact_type = int(input("Enter the contact type number: "))
     while sanitize_contact_type(contact_type) is False:
         pretty_print("ERROR: Please enter a valid contact type number. Try again.")
-        contact_type_ui()
+        menu_display(contact_type_menu, contact_type_heading)
         contact_type = input("Enter the contact type number: ")
 
     if contact_type == 1:
@@ -93,13 +95,13 @@ def add_new_contact(database, user_list):
 # add users functionality
 def add_user(user_list):
 
-    user_management_ui()
+    menu_display(user_management_menu, default_menu_heading)
 
-    choice = int(input("\nEnter the task number and press enter: "))
+    choice = int(input("Enter the task number and press enter: "))
     while sanitize_user(choice) is False:
         pretty_print("Error! Please enter task numbers only.")
-        user_management_ui()
-        choice = input("\nEnter the task number and press enter: ")
+        menu_display(user_management_menu, default_menu_heading)
+        choice = input("Enter the task number and press enter: ")
 
     if choice == 1:
         name = input("\nEnter the user's name: ")
@@ -123,7 +125,7 @@ def main():
 
     while True:
 
-        user_ui()
+        menu_display(main_menu, default_menu_heading)
         task = int(input("Enter the task number and press enter: "))
 
         if task == 1:
