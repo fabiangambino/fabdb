@@ -44,7 +44,7 @@ def sanitize_email(email_address):
     return True
 
 # input control for contact type field
-def contact_type_control(contact_type):
+def sanitize_contact_type(contact_type):
 
     if contact_type == 1:
         return True
@@ -55,20 +55,20 @@ def contact_type_control(contact_type):
     else:
         return False
 
-# input control for ownership field
-def ownership_control(ownership, user_list):
+# input control for contact_owner field
+def sanitize_contact_owner(choice, user_list):
 
-    if ownership < 1 or ownership > len(user_list):
+    if choice < 1 or choice > len(user_list):
         return False
     else:
         return True
 
 # input control for managing users
-def user_control(ownership):
+def sanitize_user(choice):
 
-    if ownership == 1:
+    if choice == 1:
         return True
-    elif ownership == 2:
+    elif choice == 2:
         return True
     else:
         return False

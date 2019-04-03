@@ -1,8 +1,8 @@
-from ui_functions import *
+from ui_utils import *
 from sanitizers import *
 from serializers import *
 from file_io import *
-from pretty_print import *
+from printers import *
 
 # contacts class objects layout
 class Contact:
@@ -64,7 +64,7 @@ def add_new_contact(database, user_list):
 
     contact_type_ui()
     contact_type = int(input("Enter the contact type number: "))
-    while contact_type_control(contact_type) is False:
+    while sanitize_contact_type(contact_type) is False:
         pretty_print("ERROR: Please enter a valid contact type number. Try again.")
         contact_type_ui()
         contact_type = input("Enter the contact type number: ")
@@ -77,12 +77,12 @@ def add_new_contact(database, user_list):
         contact_type = "Customer"
 
     user_list_ui(user_list)
-    ownership = int(input("Enter the contact owner number: "))
-    while ownership_control(ownership, user_list) is False:
+    choice = int(input("Enter the contact owner number: "))
+    while sanitize_contact_owner(choice, user_list) is False:
         pretty_print("ERROR: Please enter a valid owner number. Try again.")
         user_list_ui(user_list)
-        ownership = int(input("Enter the contact owner number: "))
-    contact_owner = user_list[ownership - 1]
+        choice = int(input("Enter the contact owner number: "))
+    contact_owner = user_list[choice - 1]
 
     new_contact = Contact(first_name, last_name, phone_number, email_address, contact_type, contact_owner)
     database.append(new_contact)
@@ -95,18 +95,18 @@ def add_user(user_list):
 
     user_management_ui()
 
-    ownership = int(input("\nEnter the task number and press enter: "))
-    while user_control(ownership) is False:
+    choice = int(input("\nEnter the task number and press enter: "))
+    while sanitize_user(choice) is False:
         pretty_print("Error! Please enter task numbers only.")
         user_management_ui()
-        ownership = input("\nEnter the task number and press enter: ")
+        choice = input("\nEnter the task number and press enter: ")
 
-    if ownership == 1:
+    if choice == 1:
         name = input("\nEnter the user's name: ")
         new_user = User(name)
         user_list.append(new_user)
         pretty_print(name + " was added to the users!")
-    elif ownership == 2:
+    elif choice == 2:
         pretty_print("This feature is not built yet.")
 
 # control flow of the program
