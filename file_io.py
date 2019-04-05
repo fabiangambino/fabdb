@@ -1,4 +1,5 @@
 from serializers import *
+from models import *
 
 # save function
 def save_database(database):
@@ -28,7 +29,7 @@ def load_database():
                     contact = Contact(first_name, last_name, phone_number, email_address, contact_type, contact_owner)
                     database.append(contact)
 
-    except:
+    except FileNotFoundError as e:
         pass
 
     return database
@@ -56,7 +57,7 @@ def load_users():
                     user = User(name)
                     user_list.append(user)
 
-    except:
+    except FileNotFoundError as e:
         pass
 
     return user_list
