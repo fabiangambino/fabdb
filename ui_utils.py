@@ -1,3 +1,5 @@
+from printers import *
+
 # main menu options
 main_menu = ["List all contacts", "List all users", "Add a new contact", "Search for a contact", "Manage users", "Exit"]
 contact_type_menu = ["Unassigned", "Prospect", "Customer"]
@@ -6,6 +8,9 @@ user_management_menu = ["Add a new user", "Delete a user"]
 # menu headings
 contact_type_heading = "Contact Types:"
 default_menu_heading = "What would you like to do?"
+
+# error messages
+invalid_input_message = "Error! Please enter task numbers only."
 
 def user_list_ui(user_list):
 
@@ -28,3 +33,20 @@ def menu_display(menu, heading):
         count += 1
         print(str(count) + ". " + item)
     print("")
+
+    while True:
+
+        invalid_input_message = "Error! Please enter task numbers only."
+
+        choice = input("Enter menu selection number and press enter: ")
+
+        if choice.isdigit() is False:
+            pretty_print(invalid_input_message)
+            print("")
+            continue
+        elif int(choice) < 1 or int(choice) > count:
+            pretty_print(invalid_input_message)
+            print("")
+            continue
+        else:
+            return int(choice)

@@ -43,18 +43,6 @@ def sanitize_email(email_address):
 
     return True
 
-# input control for contact type field
-def sanitize_contact_type(contact_type):
-
-    if contact_type == 1:
-        return True
-    elif contact_type == 2:
-        return True
-    elif contact_type == 3:
-        return True
-    else:
-        return False
-
 # input control for contact_owner field
 def sanitize_contact_owner(choice, user_list):
 
@@ -72,3 +60,22 @@ def sanitize_user(choice):
         return True
     else:
         return False
+
+# input control for usernames
+def sanitize_username(username):
+
+    username_split = username.split(" ")
+    if len(username_split) == 2:
+        if sanitize_name_fields(username_split[0]) is True and sanitize_name_fields(username_split[1]) is True:
+            return True
+    return False
+
+# generic sanitizer
+def input_sanitized(terminal_message, sanitizer):
+
+    user_input = input(terminal_message)
+
+    while sanitizer(input) is False:
+        print(Error_msg)
+        input = input(terminal_message)
+    return input

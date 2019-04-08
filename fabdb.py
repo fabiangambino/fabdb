@@ -32,13 +32,7 @@ def add_new_contact(database, user_list):
         pretty_print(invalid_input)
         email_address = input("\nEnter the contact's email address: ")
 
-    menu_display(contact_type_menu, contact_type_heading)
-    contact_type = int(input("Enter the contact type number: "))
-    while sanitize_contact_type(contact_type) is False:
-        pretty_print("ERROR: Please enter a valid contact type number. Try again.")
-        menu_display(contact_type_menu, contact_type_heading)
-        contact_type = input("Enter the contact type number: ")
-
+    contact_type = menu_display(contact_type_menu, contact_type_heading)
     if contact_type == 1:
         contact_type = "Unassigned"
     elif contact_type == 2:
@@ -63,16 +57,10 @@ def add_new_contact(database, user_list):
 # add users functionality
 def add_user(user_list):
 
-    menu_display(user_management_menu, default_menu_heading)
-
-    choice = int(input("Enter the task number and press enter: "))
-    while sanitize_user(choice) is False:
-        pretty_print("Error! Please enter task numbers only.")
-        menu_display(user_management_menu, default_menu_heading)
-        choice = input("Enter the task number and press enter: ")
+    choice = menu_display(user_management_menu, default_menu_heading)
 
     if choice == 1:
-        name = input("\nEnter the user's name: ")
+        name = input_sanitized("\nEnter the user's name: ", sanitize_username)
         new_user = User(name)
         user_list.append(new_user)
         pretty_print(name + " was added to the users!")
@@ -85,7 +73,6 @@ def main():
     welcome_message = "Welcome to Fab Database!"
     unbuilt_feature = "This feature is not built yet."
     exit_database_message = "Thank you for using Fab Database! Program Closed."
-    invalid_input_message = "Error! Please enter task numbers only."
 
     user_list = load_users()
     #print(user_list)
@@ -94,8 +81,7 @@ def main():
 
     while True:
 
-        menu_display(main_menu, default_menu_heading)
-        task = int(input("Enter the task number and press enter: "))
+        task = menu_display(main_menu, default_menu_heading)
 
         if task == 1:
             print("")
@@ -115,8 +101,6 @@ def main():
             pretty_print(exit_database_message)
             print("")
             break
-        else:
-            pretty_print(invalid_input_message)
 
     save_users(user_list)
     save_database(database)
