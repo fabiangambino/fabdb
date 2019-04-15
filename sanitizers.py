@@ -1,3 +1,5 @@
+from printers import *
+
 # input control for phone number
 def sanitize_phone_number(phone_number):
 
@@ -71,11 +73,11 @@ def sanitize_username(username):
     return False
 
 # generic sanitizer
-def input_sanitized(terminal_message, sanitizer):
+def input_sanitized(terminal_message, sanitizer, error_msg):
 
     user_input = input(terminal_message)
 
-    while sanitizer(input) is False:
-        print(Error_msg)
-        input = input(terminal_message)
-    return input
+    while sanitizer(user_input) is False:
+        pretty_print(error_msg)
+        user_input = input(terminal_message)
+    return user_input

@@ -8,30 +8,15 @@ from models import *
 # add new contacts functionality
 def add_new_contact(database, user_list):
 
-    first_name = input("\nEnter the contact's first name: ")
-    while sanitize_name_fields(first_name) is False:
-        invalid_input = "ERROR: Invalid Input. No numbers, spaces, or special characters. Try again."
-        pretty_print(invalid_input)
-        first_name = input("\nEnter the contact's first name: ")
+    name_error = "ERROR: Invalid Input. No numbers, spaces, or special characters. Try again."
+    phone_error = "ERROR: Invalid Input. Input format must be as follows: ###-###-#### Try again."
+    email_error = "ERROR: Invalid Input. Input format must be as follows: email_name@domain"
 
-    last_name = input("Enter the contact's last name: ")
-    while sanitize_name_fields(last_name) is False:
-        invalid_input = "ERROR: Invalid Input. No numbers, spaces, or special characters. Try again."
-        pretty_print(invalid_input)
-        last_name = input("\nEnter the contact's last name: ")
-
-    phone_number = input("Enter the contact's phone number: ")
-    while sanitize_phone_number(phone_number) is False:
-        invalid_input = "ERROR: Invalid Input. Input format must be as follows: ###-###-#### Try again."
-        pretty_print(invalid_input)
-        phone_number = input("\nEnter the contact's phone number: ")
-
-    email_address = input("Enter the contact's email address: ")
-    while sanitize_email(email_address) is False:
-        invalid_input = "ERROR: Invalid Input. Input format must be as follows: email_name@domain"
-        pretty_print(invalid_input)
-        email_address = input("\nEnter the contact's email address: ")
-
+    first_name = input_sanitized("\nEnter the contact's first name: ", sanitize_name_fields, name_error)
+    last_name = input_sanitized("\nEnter the contact's last name: ", sanitize_name_fields, name_error)
+    phone_number = input_sanitized("\nEnter the contact's phone number: ", sanitize_phone_number, phone_error)
+    email_address = input_sanitized("\nEnter the contact's email address: ", sanitize_email, email_error)
+    
     contact_type = menu_display(contact_type_menu, contact_type_heading)
     if contact_type == 1:
         contact_type = "Unassigned"
@@ -75,7 +60,6 @@ def main():
     exit_database_message = "Thank you for using Fab Database! Program Closed."
 
     user_list = load_users()
-    #print(user_list)
     database = load_database()
     pretty_print(welcome_message)
 
