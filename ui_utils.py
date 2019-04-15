@@ -7,6 +7,7 @@ user_management_menu = ["Add a new user", "Delete a user"]
 
 # menu headings
 contact_type_heading = "Contact Types:"
+contact_owner_heading = "Contact Owners"
 default_menu_heading = "What would you like to do?"
 
 # error messages

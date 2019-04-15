@@ -16,7 +16,7 @@ def add_new_contact(database, user_list):
     last_name = input_sanitized("\nEnter the contact's last name: ", sanitize_name_fields, name_error)
     phone_number = input_sanitized("\nEnter the contact's phone number: ", sanitize_phone_number, phone_error)
     email_address = input_sanitized("\nEnter the contact's email address: ", sanitize_email, email_error)
-    
+
     contact_type = menu_display(contact_type_menu, contact_type_heading)
     if contact_type == 1:
         contact_type = "Unassigned"
@@ -25,13 +25,7 @@ def add_new_contact(database, user_list):
     elif contact_type == 3:
         contact_type = "Customer"
 
-    user_list_ui(user_list)
-    choice = int(input("Enter the contact owner number: "))
-    while sanitize_contact_owner(choice, user_list) is False:
-        pretty_print("ERROR: Please enter a valid owner number. Try again.")
-        user_list_ui(user_list)
-        choice = int(input("Enter the contact owner number: "))
-    contact_owner = user_list[choice - 1]
+    contact_owner = menu_display(user_list, contact_owner_heading)
 
     new_contact = Contact(first_name, last_name, phone_number, email_address, contact_type, contact_owner)
     database.append(new_contact)
@@ -42,15 +36,25 @@ def add_new_contact(database, user_list):
 # add users functionality
 def add_user(user_list):
 
+    username_error = "ERROR: Please enter username in this format: 'firstname lastname'."
+
+    
     choice = menu_display(user_management_menu, default_menu_heading)
 
     if choice == 1:
-        name = input_sanitized("\nEnter the user's name: ", sanitize_username)
+        name = input_sanitized("\nEnter the user's name: ", sanitize_username, username_error)
         new_user = User(name)
         user_list.append(new_user)
         pretty_print(name + " was added to the users!")
     elif choice == 2:
         pretty_print("This feature is not built yet.")
+
+def convert_users_to_names(user_list):
+
+    user_names = []
+    for item in user_list:
+        user_names.append(item.name)
+    return user_names
 
 # control flow of the program
 def main():
@@ -61,6 +65,7 @@ def main():
 
     user_list = load_users()
     database = load_database()
+    convert_users_to_names(user_list)
     pretty_print(welcome_message)
 
     while True:
