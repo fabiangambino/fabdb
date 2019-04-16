@@ -25,7 +25,8 @@ def add_new_contact(database, user_list):
     elif contact_type == 3:
         contact_type = "Customer"
 
-    contact_owner = menu_display(user_list, contact_owner_heading)
+    user_names = [user.name for user in user_list]
+    contact_owner = menu_display(user_names, contact_owner_heading)
 
     new_contact = Contact(first_name, last_name, phone_number, email_address, contact_type, contact_owner)
     database.append(new_contact)
@@ -38,7 +39,6 @@ def add_user(user_list):
 
     username_error = "ERROR: Please enter username in this format: 'firstname lastname'."
 
-    
     choice = menu_display(user_management_menu, default_menu_heading)
 
     if choice == 1:
