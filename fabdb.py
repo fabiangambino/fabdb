@@ -27,6 +27,7 @@ def add_new_contact(database, user_list):
 
     user_names = [user.name for user in user_list]
     contact_owner = menu_display(user_names, contact_owner_heading)
+    contact_owner = user_list[contact_owner -1]
 
     new_contact = Contact(first_name, last_name, phone_number, email_address, contact_type, contact_owner)
     database.append(new_contact)
