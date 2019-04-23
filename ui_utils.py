@@ -4,6 +4,7 @@ from printers import *
 main_menu = ["List all contacts", "List all users", "Add a new contact", "Search for a contact", "Manage users", "Exit"]
 contact_type_menu = ["Unassigned", "Prospect", "Customer"]
 user_management_menu = ["Add a new user", "Delete a user"]
+search_contacts_menu = ["Search by name", "Search by phone number", "Search by email address", "Search by contact type", "Search by contact owner"]
 
 # menu headings
 contact_type_heading = "Contact Types:"

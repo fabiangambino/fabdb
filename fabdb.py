@@ -57,6 +57,29 @@ def convert_users_to_names(user_list):
         user_names.append(item.name)
     return user_names
 
+def search_contacts(database):
+
+    choice = menu_display(search_contacts_menu, default_menu_heading)
+
+    if choice == 1:
+        name = input("Enter the exact full name: ")
+        count = 0
+        for item in database:
+            if name == item.first_name + " " + item.last_name:
+                item.cprint()
+                count += 1
+        if count == 0:
+            pretty_print("Contact does not exist in database.")
+    elif choice == 2:
+        pass
+    elif choice == 3:
+        pass
+    elif choice == 4:
+        pass
+    elif choice == 5:
+        pass
+
+
 # control flow of the program
 def main():
 
@@ -84,7 +107,7 @@ def main():
         elif task == 3:
             add_new_contact(database, user_list)
         elif task == 4:
-            pretty_print(unbuilt_feature)
+            search_contacts(database)
         elif task == 5:
             add_user(user_list)
         elif task == 6:
