@@ -59,13 +59,14 @@ def convert_users_to_names(user_list):
 
 def search_contacts(database):
 
-    choice = menu_display(search_contacts_menu, default_menu_heading)
+    choice = menu_display(search_contacts_menu, search_menu_heading)
 
     if choice == 1:
-        name = input("Enter the exact full name: ")
+        name = input("\nEnter the exact full name: ")
         count = 0
         for item in database:
             if name == item.first_name + " " + item.last_name:
+                print("")
                 item.cprint()
                 count += 1
         if count == 0:

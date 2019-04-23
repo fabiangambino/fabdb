@@ -9,6 +9,7 @@ search_contacts_menu = ["Search by name", "Search by phone number", "Search by e
 # menu headings
 contact_type_heading = "Contact Types:"
 contact_owner_heading = "Contact Owners:"
+search_menu_heading = "How would you like to search?"
 default_menu_heading = "What would you like to do?"
 
 # error messages
