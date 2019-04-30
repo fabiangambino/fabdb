@@ -13,7 +13,7 @@ class Contact:
     def cprint(self):
 
         print("Name: " + self.first_name + " " + self.last_name)
-        print("Phone Number: " + str(self.phone_number))
+        print("Phone Number: " + self.phone_number[0:3] + "-" + self.phone_number[3:6] + "-" + self.phone_number[6:11])
         print("Email Address: " + self.email_address)
         print("Contact Type: " + self.contact_type)
         print("Ownership: " + self.contact_owner.name)

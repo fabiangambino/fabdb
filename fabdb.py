@@ -15,7 +15,9 @@ def add_new_contact(database, user_list):
     first_name = input_sanitized("\nEnter the contact's first name: ", sanitize_name_fields, name_error)
     last_name = input_sanitized("\nEnter the contact's last name: ", sanitize_name_fields, name_error)
     phone_number = input_sanitized("\nEnter the contact's phone number: ", sanitize_phone_number, phone_error)
+    phone_number = "".join([x for x in phone_number if x != "-"])
     email_address = input_sanitized("\nEnter the contact's email address: ", sanitize_email, email_error)
+
 
     contact_type = menu_display(contact_type_menu, contact_type_heading)
     if contact_type == 1:
@@ -62,23 +64,40 @@ def search_contacts(database):
     choice = menu_display(search_contacts_menu, search_menu_heading)
 
     if choice == 1:
-        name = input("\nEnter the exact full name: ")
+
+        name = input("\nEnter the full name you are searching for: ")
+        print("")
+        ns = name.split(" ")
+        cleaned = [x for x in ns if x != ""]
+        first_name = cleaned[0].lower()
+        last_name = cleaned[1].lower()
+
         count = 0
         for item in database:
-            if name == item.first_name + " " + item.last_name:
-                print("")
+            if item.first_name.lower().startswith(first_name) and item.last_name.lower().startswith(last_name):
                 item.cprint()
                 count += 1
+
         if count == 0:
             pretty_print("Contact does not exist in database.")
+        else:
+            pretty_print("Found %d contacts" % count)
+
     elif choice == 2:
-        pass
+
+        phone_number = input("\nEnter the phone number you are searching for: ")
+        print("")
+
+        for item in database:
+            if item.phone_number.startswith(phone_number):
+                item.cprint()
+
     elif choice == 3:
-        pass
+        email_address = input("\nEnter the email address: ")
     elif choice == 4:
-        pass
+        contact_type = input("\nEnter the contact type: ")
     elif choice == 5:
-        pass
+        contact_owner = input("\nEnter the contact owner: ")
 
 
 # control flow of the program
