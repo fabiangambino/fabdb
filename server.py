@@ -1,5 +1,6 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import SocketServer
+import os
 
 class S(BaseHTTPRequestHandler):
     def _set_headers(self):
@@ -9,9 +10,16 @@ class S(BaseHTTPRequestHandler):
 
     def do_GET(self):
         self._set_headers()
-        with open("views/index.html") as f:
-            test_html = f.read()
-        self.wfile.write(test_html)
+        path = os.getcwd() + "/views" + self.path
+        if self.path == "/":
+            path = os.getcwd() + "/views/index.html"
+        print 'path' + path
+        if os.path.exists(path) is True:
+            with open(path) as f:
+                test_html = f.read()
+                self.wfile.write(test_html)
+        else:
+            print 'file does not exist'
 
 def run(server_class=HTTPServer, handler_class=S, port=80):
     server_address = ('', port)
